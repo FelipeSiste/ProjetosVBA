@@ -1,0 +1,70 @@
+Sub DownloadFileFromURL()
+
+     Dim FileUrl As String
+     Dim objXmlHttpReq As Object
+     Dim objStream As Object
+
+     FileUrl = "URL of your file"
+
+     'example
+     'FileUrl = "https://www.excelvbasolutions.com/images/chart.jpg"
+
+     Set objXmlHttpReq = CreateObject("Microsoft.XMLHTTP")
+     objXmlHttpReq.Open "GET", FileUrl, False, "username", "password"
+     objXmlHttpReq.send
+
+     If objXmlHttpReq.Status = 200 Then
+          Set objStream = CreateObject("ADODB.Stream")
+          objStream.Open
+          objStream.Type = 1
+          objStream.Write objXmlHttpReq.responseBody
+          objStream.SaveToFile ThisWorkbook.Path & "\" & "file.jpg", 2
+          objStream.Close
+     End If
+
+End Sub
+
+
+
+
+
+
+Option Explicit
+Declare PtrSafe Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Long, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Long, ByVal lpfnCB As Long) As Long
+
+Sub DownloadFile()
+Dim WinHttpReq As Object
+Dim oStream As Object
+Dim myURL As String
+Dim LocalFilePath As String
+
+myURL = "https://myfedex.sharepoint.com/workbook.xlsx"
+LocalFilePath = "C:\Users\updatedworkbook.xlsx"
+
+Set WinHttpReq = CreateObject("Microsoft.XMLHTTP")
+WinHttpReq.Open "GET", myURL, False, "", ""  '("username", "password")
+WinHttpReq.send
+
+If WinHttpReq.Status = 200 Then
+    Set oStream = CreateObject("ADODB.Stream")
+    oStream.Open
+    oStream.Type = 1
+    oStream.Write WinHttpReq.responseBody
+    oStream.SaveToFile LocalFilePath, 2 ' 1 = no overwrite, 2 = overwrite
+    oStream.Close
+End If
+End Sub
+
+
+
+
+
+Sub AbrirPagina_web()
+
+Dim Navigador As New ChromeDriver
+
+Navigador.Get ("https://www.postgresql.org/")
+
+navigator.Quit
+
+End Sub

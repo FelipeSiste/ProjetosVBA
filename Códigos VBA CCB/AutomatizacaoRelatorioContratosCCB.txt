@@ -1,0 +1,54 @@
+Sub AutomatizacaoRelatorioContratosCCB()
+'1
+
+
+
+         Dim ConexaoBanco As ADODB.Connection
+         Dim EntradasBanco As ADODB.Recordset
+         Dim Preencher As String
+         Dim Tabela_Collector As String
+         Dim DataReferencia As Date
+         Dim DataInicial As Date
+         Dim EsperaCCBFunil As Date
+         Dim DataAtual As Date
+         
+         Sheets("Auxiliar_Contratos").Activate
+         
+         'ActiveWorkbook.Connections("Consulta - Consulta2").Refresh
+         'EsperaCCBFunil = Application.Wait(Now + TimeValue("00:04:00"))
+         Espera = Application.Wait(Now + TimeValue("00:00:02"))
+         With ThisWorkbook
+         DataAtual = Date - 1
+         Cells(2, 4).Value = DataAtual
+         Cells(3, 4).Value = DataAtual
+         End With
+ 
+        Application.Range("A2").Select
+        Range(Selection, Selection.End(xlToRight)).Select
+        Range(Selection, "A3").Select
+        Selection.Copy
+        
+        With Worksheets("Aux_Contratos")
+        Sheets("Aux_Contratos").Activate
+        Preencher = Sheets("Aux_Contratos").Range("A1048576").End(xlUp).Row + 1
+        Range("A" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                :=False, Transpose:=False
+        End With
+                
+        With Worksheets("Final_Base")
+        Sheets("Final_Base").Activate
+        Preencher = Sheets("Final_Base").Range("A1048576").End(xlUp).Row + 1
+        Range("A" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                :=False, Transpose:=False
+        End With
+       
+       'Espera = Application.Wait(Now + TimeValue("00:00:02"))
+       'ActiveWorkbook.RefreshAll
+       
+       'EsperaCCBFunil = TimeValue("00:00:20")
+       'Call SendEmailFunil_1
+
+
+End Sub

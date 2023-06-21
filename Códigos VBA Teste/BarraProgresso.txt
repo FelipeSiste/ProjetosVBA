@@ -1,0 +1,18 @@
+sub BarraProgresso()
+
+Dim i as long
+Dim Total as long
+
+Total = 10000
+
+for i = to Total 
+[B2] = i/Total
+
+next
+
+
+
+End sub
+
+
+link https://www.youtube.com/watch?v=R320XnMAOcM

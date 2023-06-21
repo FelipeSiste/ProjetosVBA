@@ -1,0 +1,18 @@
+
+
+Sub Calculo_Tempo()
+ 
+ For Each celula In Range("z2:z6")
+ 
+ If celula.Offset(0, -24).Value = celula.Offset(1, -24).Value And celula.Offset(0, -23).Value = celula.Offset(1, -23).Value Then
+ 
+    celula.Value = WorksheetFunction.Sum(Range("l3").Value, -Range("l2").Value)
+    Next
+ Else
+ celula.Value = "00:00:00"
+ 
+ End If
+    
+ Next
+ 
+  End Sub

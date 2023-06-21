@@ -1,0 +1,67 @@
+ Sub AcordosCCB()
+ '3
+
+ 
+         Dim ConexaoBanco As ADODB.Connection
+         Dim EntradasBanco As ADODB.Recordset
+         Dim Preencher As String
+         Dim Tabela_Collector As String
+         Dim DataReferencia As Date
+         Dim DataInicial As Date
+         Dim Espera As Date
+         Dim DataAtual As Date
+         
+         'ActiveWorkbook.Connections("Consulta - Consulta3").Refresh
+         'Espera = Application.Wait(Now + TimeValue("00:04:00"))
+         With Worksheets("Auxiliar_Acordos")
+         Sheets("Auxiliar_Acordos").Activate
+         DataAtual = (Date - 1)
+         For i = 2 To 7
+         Cells(i, 4).Value = DataAtual
+         Next
+         End With
+ 
+        
+        With Worksheets("Auxiliar_Acordos")
+        Sheets("Auxiliar_Acordos").Activate
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Application.Range("A2").Select
+        Range(Selection, Selection.End(xlToRight)).Select
+        Range(Selection, "A7").Select
+        Selection.Copy
+        End With
+        
+        With Worksheets("Aux_Acordo")
+        Sheets("Aux_Acordo").Activate
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Preencher = Sheets("Aux_Acordo").Range("A1048576").End(xlUp).Row + 1
+        Range("A" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                :=False, Transpose:=False
+        End With
+        
+       
+        With Worksheets("Auxiliar_Acordos")
+        Sheets("Auxiliar_Acordos").Activate
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Application.Range("H2:M2").Select
+        Range(Selection, ("H3:M3")).Select
+        Range(Selection, "H3").Select
+        Selection.Copy
+        End With
+        
+         With Worksheets("Final_Base")
+        Sheets("Final_Base").Activate
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Preencher = Sheets("Final_Base").Range("A1048576").End(xlUp).Row - 1
+        Range("O" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                :=False, Transpose:=False
+        End With
+        
+        
+       
+       'Espera = Application.Wait(Now + TimeValue("00:00:02"))
+       'ActiveWorkbook.RefreshAll
+
+ End Sub

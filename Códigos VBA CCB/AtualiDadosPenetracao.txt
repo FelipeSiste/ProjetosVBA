@@ -1,0 +1,13 @@
+AtualiDadosPenetracao
+
+
+Sub AtualizaDados()
+'
+' AtualizaDados Macro
+' Atualiza os dados que estão na aba Dados.
+'
+
+'
+    Range("E7").Select
+    ActiveWorkbook.RefreshAll
+End Sub

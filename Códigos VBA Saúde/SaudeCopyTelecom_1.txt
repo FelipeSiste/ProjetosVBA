@@ -1,0 +1,84 @@
+Sub SaudeCopyTelecom_1()
+ 
+     Dim Preencher As String
+    Dim Preencher_1 As String
+    Dim Espera_1 As Date
+   
+    
+   Range("A1").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=True, Comma:=False, Space:=False, Other:=False, FieldInfo _
+        :=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, 1), Array(6, 1), _
+        Array(7, 1), Array(8, 1), Array(9, 1), Array(10, 1), Array(11, 1), Array(12, 1), Array(13, 1 _
+        ), Array(14, 1), Array(15, 1), Array(16, 1), Array(17, 1), Array(18, 1), Array(19, 1), Array _
+        (20, 1), Array(21, 1), Array(22, 1), Array(23, 1), Array(24, 1), Array(25, 1), Array(26, 1), _
+        Array(27, 1), Array(28, 1), Array(29, 1), Array(30, 1), Array(31, 1), Array(32, 1), Array( _
+        33, 1), Array(34, 1), Array(35, 1), Array(36, 1), Array(37, 1), Array(38, 1), Array(39, 1), _
+        Array(40, 1), Array(41, 1), Array(42, 1)), TrailingMinusNumbers:=True
+
+ 
+ 
+    
+    Columns("B:D").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("C:N").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("E:K").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("E:K").EntireColumn.AutoFit
+    Columns("F:K").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("H:O").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("A:A").Select
+    Columns("B:B").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("F1").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+    Range(Selection, Selection.End(xlUp)).Select
+    Range("B1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    ActiveSheet.Paste
+    Columns("B:B").EntireColumn.AutoFit
+    Columns("F:F").Select
+    Application.CutCopyMode = False
+    Selection.Delete Shift:=xlToLeft
+    Columns("F:F").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Columns("H:H").Select
+    Selection.Copy
+    Range("F1").Select
+    ActiveSheet.Paste
+    Columns("H:H").Select
+    Application.CutCopyMode = False
+    Selection.Delete Shift:=xlToLeft
+    Range("J10").Select
+    Columns("G:G").EntireColumn.AutoFit
+    Range("A1").Select
+    
+        Preencher_1 = Application.Range("A1048576").End(xlUp).Row
+        Range(Selection, Selection.End(xlToRight)).Select
+        Selection.AutoFilter
+         ActiveSheet.Range("$A$1" & ":$G$" & Preencher_1).AutoFilter Field:=4, Criteria1:=Array( _
+              "Cobranca Juridico", "Cobranca Saude", "CPFL Energia"), Operator:= _
+        xlFilterValues
+        Range("A2" & ":G" & Preencher_1).SpecialCells(xlCellTypeVisible).Select
+        Range(Selection, Selection.End(xlDown)).Select
+        Selection.Copy
+        Windows("Dashboard_Telecom.xlsm").Activate
+        Sheets("Saude_Dados_Telecom").Activate
+        Preencher = Sheets("Saude_Dados_Telecom").Range("A1048576").End(xlUp).Row + 1
+        ActiveWindow.SmallScroll Down:=6
+        Range("A" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+            :=False, Transpose:=False
+    
+       Espera_1 = TimeValue("00:00:10")
+        ActiveWorkbook.RefreshAll
+
+End Sub
+

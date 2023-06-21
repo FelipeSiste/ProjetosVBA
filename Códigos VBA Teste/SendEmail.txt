@@ -1,0 +1,143 @@
+Sub EnviaEmailKPIbordo()
+Dim Intervalo As Range
+Dim grafico As ChartObject
+Dim objOutlook As Object
+
+
+Planilha1.PivotTables("Tabela dinâmica3").PivotCache.Refresh
+
+
+Set Intervalo = Planilha2.Range("A1:P47")
+Intervalo.CopyPicture
+
+Set grafico = Planilha2.ChartObjects.Add(Intervalo.Left, Intervalo.Top, Intervalo.Width, Intervalo.Height)
+    With grafico
+        .Activate
+        .Chart.Paste
+        .Chart.Export Environ$("Temp") & "/diariobordo.jpg"
+        .Delete
+    End With
+
+Set objOutlook = CreateObject("Outlook.application").createItem(0)
+    With objOutlook
+    .to = "marcos.costa@grupocob.com.br;mis"
+    '.to = "marcos.costa@grupocob.com.br"
+    .attachments.Add Environ$("temp") & "/diariobordo.jpg", 1, 0
+    .HTMLBody = _
+   "<HTML>" & vbNewLine & _
+      "<BODY style=font-size:11pt;font-family:Calibri> " & vbNewLine & _
+         "<P>Olá,</P>" & vbNewLine & _
+         "<P>Segue diário de bordo dos Operadores atualizado com os acionamentos, cpc, valores gerados de contratos, de boletos.</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & _
+         "<P><img src='cid:diariobordo.jpg'></P> " & vbNewLine & _
+         "<P></P> " & vbNewLine & _
+         "<P>Esta é uma mensagem automática e qualquer dúvida deverá ser encaminhada para marcos.costa@grupocob.com.br.</P>" & vbNewLine & _
+         "<P>Atenciosamente</P> " & vbNewLine & _
+         "<P>Grupo Cob - Cobranças Personalizadas</P> " & vbNewLine & _
+      "</BODY>" & vbNewLine & _
+   "</HTML>"
+
+    .Subject = "DIARIO DE BORDO - DATA ENVIO " & Format(Now, "dd-mm-yyyy")
+    .display
+    .Send
+    End With
+
+Set objOutlook = Nothing
+Set grafico = Nothing
+Set Intervalo = Nothing
+
+End Sub
+
+
+Sub Send_Mail()
+
+
+
+Dim Intervalo As Range
+Dim objOutlook As Object
+Dim Data As Variant
+
+Data = Format(Now, "dd-mm-yyyy")
+
+
+Set objOutlook = CreateObject("Outlook.application").createItem(0)
+    With objOutlook
+    .to = "mis@grupocob.com.br"
+    
+    .attachments.Add "C:\Users\backoffice\Grupocob\M_I_S - Documentos\1 - Operação CCB\CCB_Dashboard_Funil.xlsx", _
+ olByValue, 1, "CCB_Dashboard_Funil"
+    .HTMLBody = _
+   "<HTML>" & vbNewLine & _
+      "<BODY style=font-size:11pt;font-family:Calibri> " & vbNewLine & _
+         "<P>Olá,</P>" & vbNewLine & _
+         "<P>Segue em anexo relatório de tabulação, atualizado. .</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & "<P></P> " & vbNewLine & _
+         "<P>Esta é uma mensagem automática e qualquer dúvida deverá ser encaminhada para mis@grupocob.com.br.</P>" & vbNewLine & _
+         "<P>Atenciosamente</P> " & vbNewLine & _
+         "<P>Grupo Cob - Cobranças Personalizadas</P> " & vbNewLine & _
+      "</BODY>" & vbNewLine & _
+   "</HTML>"
+
+    .Subject = "DIARIO DE BORDO - DATA ENVIO " & Format(Now, "dd-mm-yyyy")
+    .display
+    .Send
+    End With
+
+Set objOutlook = Nothing
+'Set grafico = Nothing
+Set Intervalo = Nothing
+
+End Sub
+
+
+------------------------------------------------------------------------------------------------------------
+Envia E-mail com arquivo:
+
+Sub Send_Mail()
+
+
+
+Dim Intervalo As Range
+Dim objOutlook As Object
+Dim Data As Variant
+
+Data = Format(Now, "dd-mm-yyyy")
+
+
+Set objOutlook = CreateObject("Outlook.application").createItem(0)
+    With objOutlook
+    .to = "mis@grupocob.com.br"
+    
+    .attachments.Add "C:\Users\backoffice\Grupocob\M_I_S - Documentos\1 - Operação CCB\CCB_Dashboard_Funil.xlsx", _
+ olByValue, 1, "CCB_Dashboard_Funil"
+    .HTMLBody = _
+   "<HTML>" & vbNewLine & _
+      "<BODY style=font-size:11pt;font-family:Calibri> " & vbNewLine & _
+         "<P>Olá,</P>" & vbNewLine & _
+         "<P>Segue em anexo relatório de tabulação, atualizado. .</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & "<P></P> " & vbNewLine & _
+         "<P>Esta é uma mensagem automática e qualquer dúvida deverá ser encaminhada para mis@grupocob.com.br.</P>" & vbNewLine & _
+         "<P>Atenciosamente</P> " & vbNewLine & _
+         "<P>Grupo Cob - Cobranças Personalizadas</P> " & vbNewLine & _
+      "</BODY>" & vbNewLine & _
+   "</HTML>"
+
+    .Subject = "DIARIO DE BORDO - DATA ENVIO " & Format(Now, "dd-mm-yyyy")
+    .display
+    .Send
+    End With
+
+Set objOutlook = Nothing
+'Set grafico = Nothing
+Set Intervalo = Nothing
+
+End Sub
+
+
+
+
+
+
+
+
+

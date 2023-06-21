@@ -1,0 +1,30 @@
+Sub AbrirAtualizarOutros()
+
+
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\1 - Operação CCB\CCB_Relatório_Funil\CCB_Dashboard_Funil.xlsm").Worksheets("Funil_db").Visible = True
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run "CCB_Dashboard_Funil.xlsm!AutomatizacaoFunilCCB"
+    
+     
+    
+     Application.Wait (Now + TimeValue("00:00:10"))
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\1 - Operação CCB\BaseXPenetracao_Carteira.xlsm")
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run "BaseXPenetracao_Carteira.xlsm!AtualizaDados"
+    
+     
+    
+     Application.Wait (Now + TimeValue("00:00:10"))
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\1 - Operação CCB\CCB_Relatório_Entradas_Saídas\CCB_Entradas_E_Saidas_ctt.xlsm").Worksheets("Dados").Visible = True
+     Application.Wait (Now + TimeValue("00:00:40"))
+     'Application.Run "Dashboard_Tabulacao_Saude.xlsm!Saude_Tabulacao"
+    
+      
+
+     Application.Wait (Now + TimeValue("00:00:10"))
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\1 - Operação CCB\CCB_Relatório_Tabulação\CCB_Dashboard_Tabulacao_Adaptacao.xlsm").Worksheets("Dados_CCB_Tabulacao").Visible = True
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run "CCB_Dashboard_Tabulacao_Adaptacao.xlsm!AutomatizacaoTabulacaoCCB"
+    
+
+End Sub

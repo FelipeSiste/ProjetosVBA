@@ -1,0 +1,12 @@
+Sub NomeArquivo()
+
+Dim Caminho As String, NomeArq As Variant
+
+Caminho = "C:\Users\backoffice\Downloads\"
+NomeArq = Dir(Caminho & "*.csv*", vbNormal)
+If NomeArq <> "" Then
+Name "C:\Users\backoffice\Downloads\" & NomeArq As "C:\Users\backoffice\Downloads\Telecom.csv"
+End If
+'Call AbrirRelatorioCCB
+
+End Sub

@@ -1,0 +1,229 @@
+Se você precisar da 1a linha em branco basta somar 1 se simplesmente precisar saber qual é esta linha.
+
+Range(“a1”).End(XLDOWN).Row +1 
+
+
+
+
+Se você quiser selecionar a 1a linha em branco, pode fazer assim:
+
+Range(“a1”).End(XLDOWN).Offset(1,0).Select
+
+
+
+C:\Users\backoffice\Documents\Minhas fontes de dados\+NovaConexãoDoSQLServer
+
+
+
+Function ConexaoBancoPostgre(ConexaoBanco As ADODB.Connection)
+
+Dim TextoConexao As String, CaminhoDaConexao As String
+
+CaminhoDaConexao = ThisWorkbook.Path & "C:\Users\backoffice\Documents\Minhas fontes de dados\+NovaConexãoDoSQLServer.ODBC"
+
+TextoConexao = "Provider=PostgreSQL OLE DB Provider;Data Source=myServerAddress;location=myDataBase;User ID=myUsername;password=myPassword;"
+
+ConexaoBanco.Open (TextoConexao)
+
+End Function
+
+
+
+
+Sub AtualizacaoDoBanco()
+
+    Dim Dada As Variant
+    Dim Preencher As Variant
+    Dim ConexaoBanco As ADODB.Connection
+    Dim EntradasBanco As ADODB.Recordset
+    
+    
+    Dados = Range("lbound(Dados):ubound(Dados)")
+    
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+    
+    
+     For i = LBound(Dados) To UBound(Dados)
+    
+     If Cells(i + 2, "C") < Cells(i + 1, "C") Then
+     
+     Next i
+    
+    Else
+    Call ConexaoBancoPostgres(ConexaoBanco)
+    
+    EantradasBanco.Open "Relat_Analise_Ocorrencias", ConexaoBanco, adOpenKeyset, adLockOptimistic
+    
+    Preencher = Range("100000").End(xlUp).Row + 1
+    Range("Preencher").CopyFromRecordset EntradasBanco
+    
+    End If
+
+End Sub
+
+
+
+Sub AtualizacaoDoBanco()
+
+    Dim Dados As Variant
+    Dim Preencher As Variant
+    Dim Dados_Max As Variant
+    Dim ConexaoBanco As ADODB.Connection
+    Dim EntradasBanco As ADODB.Recordset
+    
+    
+    Dados = Range("a2:a10000")
+    Dados_Max = Aplication.Max(Dados)
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+    
+    
+    Call ConexaoBancoPostgres(ConexaoBanco)
+    
+    EantradasBanco.Open "Relat_Analise_Ocorrencias", ConexaoBanco, adOpenKeyset, adLockOptimistic
+    
+    Preencher = Range("Dados_Max").End(xlUp).Row + 1
+    Range("Preencher").CopyFromRecordset EntradasBanco
+    
+    
+ 
+
+End Sub
+
+
+Sub AtualizacaoDoBanco()
+
+    Dim Dados As Variant
+    Dim Preencher As Variant
+    Dim Dados_Max As Variant
+    Dim ConexaoBanco As ADODB.Connection
+    Dim EntradasBanco As ADODB.Recordset
+    
+    
+    Dados = Range("a2:a10000")
+    Dados_Max = Aplication.Max(Dados)
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+    
+    
+    Call ConexaoBancoPostgres(ConexaoBanco)
+    
+    EantradasBanco.Open "Relat_Analise_Ocorrencias", ConexaoBanco, adOpenKeyset, adLockOptimistic
+    
+    Preencher = Range("Dados_Max").End(xlUp).Row + 1
+    Range("Preencher").CopyFromRecordset EntradasBanco
+    
+
+
+Sub Max_Max()
+
+    Dim Dados As Variant
+    Dim Dados_Max As Double
+    
+    Set Dados = Worksheets("Plan1").Range("c2:c11")
+    Dados_Max = WorksheetFunction.Max(Dados)
+     Cells(2, "k") = Dados_Max
+    
+End Sub
+
+    
+Sub ConexaoBancoPostgre()
+
+    Dim ConexaoBanco As ADODB.Connection
+    Dim EntradasBanco As ADODB.Recordset
+    Dim Tabela_Collector As String
+    
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+
+ConexaoBanco.ConnectionString = "Driver={PostgreSQL ANSI};Server=200.201.211.85;Port=5434;Database=db_gcob;Uid=ugcob2b;Pwd=gcob2b001;Option=3;"
+
+
+ConexaoBanco.Open
+
+Tabela_Collector = "SELECT*FROM "
+
+EntradasBanco.Open Tabela_Collector, ConexaoBanco
+Tabela_1.Range("A1").CopyFromRecordset EntradasBanco
+
+End Sub
+
+
+
+Sub ConexaoBancoPostgre()
+
+    Dim ConexaoBanco As ADODB.Connection
+    Dim EntradasBanco As ADODB.Recordset
+    Dim Preencher As String
+    Dim Tabela_Collector As String
+    Dim Dados As Variant
+    Dim Dados_Max As Double
+    
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+
+
+ConexaoBanco.ConnectionString = "Driver={PostgreSQL ANSI};Server=200.201.211.85;Port=5434;Database=db_gcob;Uid=ugcob2b;Pwd=gcob2b001;Option=3;"
+
+Set Dados = Worksheets("Dados_Ocorrencias").Range("c2:c1000000")
+    Dados_Max = WorksheetFunction.Max(Dados)
+
+
+ConexaoBanco.Open
+
+Tabela_Collector = "select h.idt_hist, h.num_contr, h.dat_data_hist, h.des_hist, u.nom_usuario, h.num_ddd, h.num_tel, h.num_ramal, h.idt_lad from cob_contr_hist as h inner join seg_user as u on h.cod_empresa = u.cod_empresa and h.cod_user = u.cod_user and u.cod_situacao_usr = 'A' and u.cod_funcao = '2' where h.cod_hist not in ('****', '026', '027', '028', '030', 'eema','rema', '54','31','9021','9022') and u.cod_user not in ('429', '449','348') and h.dat_data_hist::date = '14-03-2023 ' order by nom_usuario asc, idt_hist ASC"
+EntradasBanco.Open Tabela_Collector, ConexaoBanco
+    
+    
+    Preencher = Sheets("Dados_Ocorrencias").Range("A1048576").End(xlUp).Row + 1
+   Application.Range("A" & Preencher).CopyFromRecordset EntradasBanco
+
+
+
+End Sub
+
+
+----------------------------Correto--------------------------
+
+Sub ConexaoBancoPostgre()
+
+    Dim ConexaoBanco As ADODB.Connection
+    Dim EntradasBanco As ADODB.Recordset
+    Dim Preencher As String
+    Dim Tabela_Collector As String
+    Dim Dados As Variant
+    Dim Dados_Max As Double
+    Dim Dados_Data As String
+    
+    
+Set Dados = Worksheets("Dados_Ocorrencias").Range("c2:c1048576")
+    Dados_Max = WorksheetFunction.Max(Dados)
+    Dados_Data = CDate(Dados_Max)
+    
+    
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+
+
+    ConexaoBanco.ConnectionString = "Driver={PostgreSQL ANSI};Server=200.201.211.85;Port=5434;Database=db_gcob;Uid=ugcob2b;Pwd=gcob2b001;Option=3;"
+    
+    ConexaoBanco.Open
+    
+    Tabela_Collector = "select h.idt_hist, h.num_contr, h.dat_data_hist, h.des_hist, u.nom_usuario, h.num_ddd||h.num_tel AS TELEFONE, h.num_ramal, h.idt_lad from cob_contr_hist as h inner join seg_user as u on h.cod_empresa = u.cod_empresa and h.cod_user = u.cod_user and u.cod_situacao_usr = 'A' and u.cod_funcao = '2' where h.cod_hist not in ('****', '026', '027', '028', '030', 'eema','rema', '54','31','9021','9022') and u.cod_user not in ('429', '449','348') and h.dat_data_hist::date = ' " & (Dados_Data) & " '"
+    
+EntradasBanco.Open Tabela_Collector, ConexaoBanco
+        
+        
+        Preencher = Sheets("Dados_Ocorrencias").Range("A1048576").End(xlUp).Row + 1
+       Application.Range("A" & Preencher).CopyFromRecordset EntradasBanco
+
+
+
+End Sub
+
+
+
+
+
+

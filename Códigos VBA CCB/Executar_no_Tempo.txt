@@ -1,0 +1,19 @@
+   Sub Executar_no_Tempo()
+
+    Dim Tempo_Execucao_1 As Date
+    
+     Tempo_Execucao_1 = Now + TimeValue("00:01:00")
+     Call Application.OnTime(Tempo_Execucao_1, "SendEmail")
+     
+    
+     
+     
+     
+     
+    
+    
+     
+    
+    
+    
+    End Sub

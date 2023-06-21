@@ -1,0 +1,47 @@
+Sub AbrirArquivo()
+
+
+
+Dim LatestFile As String
+
+Dim LatestDate As Date
+
+Dim LMD As Date
+
+
+'Encaminha usuário a pasta onde tem os arquivos "originais" que serão abertos e formatados
+
+MyPath = "C:\Users\backoffice\Downloads"
+
+
+
+If Right(MyPath, 1) <> "\" Then MyPath = MyPath & "\"
+
+Myfile = Dir(MyPath & "*.csv*", vbNormal)
+
+If Len(Myfile) = 0 Then
+
+    MsgBox "Nenhum arquivo foi encontrado …", vbExclamation
+    
+    Exit Sub
+
+End If
+
+
+Do While Len(Myfile) > 0
+
+    LMD = FileDateTime(MyPath & Myfile)
+    
+    If LMD > LatestDate Then
+
+        LatestFile = Myfile
+        
+        LatestDate = LMD
+
+End If
+
+    Workbooks.Open (MyPath & Myfile)
+
+Loop
+
+End Sub

@@ -1,0 +1,40 @@
+Sub SendEmailCCBTelecom()
+
+
+Dim Intervalo As Range
+Dim grafico As ChartObject
+Dim objOutlook As Object
+
+
+
+Set objOutlook = CreateObject("Outlook.application").CreateItem(0)
+    With objOutlook
+    .To = "jefferson.franca@grupocob.com.br; cobranca@grupocob.com.br; marcos.costa@grupocob.com.br"
+    
+    
+    .HTMLBody = _
+   "<HTML>" & vbNewLine & _
+      "<BODY style=font-size:11pt;font-family:Calibri> " & vbNewLine & _
+         "<P>Olá,</P>" & vbNewLine & _
+         "<P>Segue link para acesso ao relatório de Telecom.</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & _
+         "<P>Acesse este link para ter acesso ao relatório de Telecom atualizado:.</P>" & vbNewLine & _
+         "<P></P>" & vbNewLine & _
+         "<P>https://groupcob.sharepoint.com/:x:/s/M_I_S/EZSvb7o1MVhGiHd2juX7u0AB5hFr56qixN9OVvPgRDylTA?e=Ds09G0</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & _
+         "<P>Esta é uma mensagem automática e qualquer dúvida deverá ser encaminhada para mis@grupocob.com.br.</P>" & vbNewLine & _
+         "<P>Atenciosamente</P> " & vbNewLine & _
+         "<P>Grupo Cob - Cobranças Personalizadas</P> " & vbNewLine & _
+      "</BODY>" & vbNewLine & _
+   "</HTML>"
+
+    .Subject = "Relatório de Telecom - DATA ENVIO " & Format(Now, "dd-mm-yyyy")
+    .Display
+    .Send
+    End With
+
+Set objOutlook = Nothing
+Set grafico = Nothing
+Set Intervalo = Nothing
+
+End Sub

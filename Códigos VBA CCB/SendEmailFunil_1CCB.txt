@@ -1,0 +1,40 @@
+Sub SendEmailFunil_1CCB()
+
+
+Dim Intervalo As Range
+Dim grafico As ChartObject
+Dim objOutlook As Object
+
+
+
+Set objOutlook = CreateObject("Outlook.application").CreateItem(0)
+    With objOutlook
+    .To = "marcos.costa@grupocob.com.br; jefferson.franca@grupocob.com.br; cobranca@grupocob.com.br"
+    
+    
+    .HTMLBody = _
+   "<HTML>" & vbNewLine & _
+      "<BODY style=font-size:11pt;font-family:Calibri> " & vbNewLine & _
+         "<P>Olá,</P>" & vbNewLine & _
+         "<P>Segue link para acesso ao relatório de penetração, no modelo Funil.</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & _
+         "<P>Acesse este link para ter acesso ao relatório de Funil atualizado:.</P>" & vbNewLine & _
+         "<P></P>" & vbNewLine & _
+         "<P>https://groupcob.sharepoint.com/:x:/s/M_I_S/EYf4ZhTxhRhHh3TVlTxLO0wBDmquSBKoY2Hm5UkMU90BsQ?e=y07TBo</P>" & vbNewLine & _
+         "<P></P> " & vbNewLine & _
+         "<P>Esta é uma mensagem automática e qualquer dúvida deverá ser encaminhada para mis@grupocob.com.br.</P>" & vbNewLine & _
+         "<P>Atenciosamente</P> " & vbNewLine & _
+         "<P>Grupo Cob - Cobranças Personalizadas</P> " & vbNewLine & _
+      "</BODY>" & vbNewLine & _
+   "</HTML>"
+
+    .Subject = "Tabulação - DATA ENVIO " & Format(Now, "dd-mm-yyyy")
+    .Display
+    .Send
+    End With
+
+Set objOutlook = Nothing
+Set grafico = Nothing
+Set Intervalo = Nothing
+
+End Sub

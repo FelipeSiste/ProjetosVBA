@@ -1,0 +1,31 @@
+Sub AbrirAtualizar()
+
+     
+     Workbooks.Open ("C:\Users\backoffice\Grupocob\M_I_S - Documentos\7 - Operacao Daycoval\5- Dashboards\BaseXPenetracao_Carteira_Daycoval.xlsm")
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run "BaseXPenetracao_Carteira_Daycoval.xlsm!AtualizaDados"
+    
+     
+    
+     Application.Wait (Now + TimeValue("00:00:10"))
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\7 - Operacao Daycoval\5- Dashboards\Dashboard_Funil_BancoDaycoval.xlsm").Worksheets("Funil_db").Visible = True
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run "Dashboard_Funil_BancoDaycoval.xlsm!AutomatizacaoFunilDaycoval1"
+    
+     
+    
+     Application.Wait (Now + TimeValue("00:00:10"))
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\7 - Operacao Daycoval\5- Dashboards\Envio_Diario_Producao.xlsm").Worksheets("Dados_Producao").Visible = True
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run ("Envio_Diario_Producao.xlsm!AutomatizacaoDaycovalboletos1")
+     
+     Application.Wait (Now + TimeValue("00:00:10"))
+     Workbooks.Open("C:\Users\backoffice\Grupocob\M_I_S - Documentos\7 - Operacao Daycoval\5- Dashboards\Daycoval_Dashboard_Tabulacao.xlsm").Worksheets("Dados_Daycoval_Tabulacao").Visible = True
+     Application.Wait (Now + TimeValue("00:00:40"))
+     Application.Run "Daycoval_Dashboard_Tabulacao.xlsm!AutomatizacaoTabulacaoDaycoval"
+    
+
+
+
+
+End Sub

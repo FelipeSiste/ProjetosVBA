@@ -1,0 +1,4 @@
+
+Código para colocar SQL grande.
+
+Sheets("Funil_db").Shapes.Range("CaixaDeTexto 1").TextFrame2.TextRange.Characters.Text

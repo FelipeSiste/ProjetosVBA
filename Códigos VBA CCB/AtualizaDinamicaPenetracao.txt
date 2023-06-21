@@ -1,0 +1,11 @@
+Sub AtualizaDinamicaPenetracao()
+'
+' AtualizaDinamica Macro
+'
+
+'
+    Range("A2").Select
+    ActiveSheet.PivotTables("Tabela dinâmica1").PivotCache.Refresh
+End Sub
+
+   ActiveSheet.PivotTables("Tabela dinâmica1").PivotCache.Refresh

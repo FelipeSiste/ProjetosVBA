@@ -1,0 +1,26 @@
+select h.idt_hist, h.cod_credor, h.num_contr, h.cod_hist, h.dat_data_hist, h.des_hist, h.cod_user, h.cod_titular_contr, h.cod_enti_credor, h.num_ramal, h.cod_origem
+
+,mc.cod_origem
+
+from cob_contr_hist as h
+
+LEFT join cob_cliente_mc as mc
+on h.cod_empresa = mc.cod_empresa
+and h.num_cpf_cnpj = mc.num_cpf_cnpj
+and cast(h.num_ddd as numeric) = cast(mc.num_ddd as numeric)
+and h.num_tel = mc.num_tel
+
+where cod_credor = '957'
+and cod_hist not in ('****', '026', '027', '028', '030', 'eema','024')
+and h.num_ddd is not null
+and dat_data_hist::date = '$v_dat_ocorrencia'   
+
+--and mc.cod_origem <> 'Banco'
+
+order by cod_user asc, idt_hist ASC
+
+
+
+
+        
+                                                  

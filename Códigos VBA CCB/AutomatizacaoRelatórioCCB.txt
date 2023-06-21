@@ -1,0 +1,87 @@
+Public Sub AutomatizacaoRelatórioCCB()
+'2
+         Dim ConexaoBanco As ADODB.Connection
+         Dim EntradasBanco As ADODB.Recordset
+         Dim Preencher As String
+         Dim Tabela_Collector As String
+         Dim Dados As Variant
+         Dim Dados_Max As Double
+         Dim Dados_Data As Date
+         Dim Espera As Date
+   
+        Worksheets("Dados_Somas_Ocorrencias").Visible = True
+        Dados_Data = Date - 1
+        Cells(2, 4).Value = Dados_Data
+        Cells(3, 4).Value = Dados_Data
+        
+        Espera = Application.Wait(Now + TimeValue("00:00:20"))
+        Range("A12").Select
+        Range(Selection, Selection.End(xlDown)).Select
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Range(Selection, Selection.End(xlToRight)).Select
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Range(Selection, Selection.End(xlToRight)).Delete
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Preencher = Sheets("Dados_Somas_Ocorrencias").Range("A1048576").End(xlUp).Row + 1
+        
+        
+       
+        
+    Espera = Application.Wait(Now + TimeValue("00:00:20"))
+    Set ConexaoBanco = New ADODB.Connection
+    Set EntradasBanco = New ADODB.Recordset
+    
+     ConexaoBanco.ConnectionString = "Driver={PostgreSQL ANSI};Server=200.201.211.85;Port=5434;Database=db_gcob;Uid=ugcob2b;Pwd=gcob2b001;Option=3;"
+     ConexaoBanco.Open
+     
+     Tabela_Collector = "select h.idt_hist, h.dat_data_hist::date as data_hist, to_char(h.dat_data_hist,'HH24:MI:SS') as hora_hist, h.cod_user, h.num_ramal, h.cod_credor, h.num_contr, h.cod_hist, h.des_hist, h.cod_titular_contr, h.cod_entid_credor,  mc.cod_origem from cob_contr_hist as h LEFT join cob_cliente_mc as mc on h.cod_empresa = mc.cod_empresa and h.num_cpf_cnpj = mc.num_cpf_cnpj and cast(h.num_ddd as numeric) = cast(mc.num_ddd as numeric) and h.num_tel = mc.num_tel where cod_credor = '957' and cod_hist not in ('****', '026', '027', '028', '030', 'eema','024','144','702','119','699','702','125','143','153') and h.num_ddd is not null and dat_data_hist > ' " & (Dados_Data) & " '  order by cod_user asc, idt_hist ASC"
+     EntradasBanco.Open Tabela_Collector, ConexaoBanco
+         
+     Espera = Application.Wait(Now + TimeValue("00:00:02"))
+     Worksheets("Dados_Somas_Ocorrencias").Select
+        
+     Application.Range("A" & Preencher).CopyFromRecordset EntradasBanco
+     
+     ConexaoBanco.Close
+     
+    Application.Worksheets("Dados_Somas_Ocorrencias").Range("A11:U11").Delete
+    Espera = Application.Wait(Now + TimeValue("00:00:02"))
+    Application.Range("A2").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, "A3").Select
+    Selection.Copy
+    Espera = Application.Wait(Now + TimeValue("00:00:02"))
+    Sheets("Aux_Indicadores").Activate
+    Preencher = Sheets("Aux_Indicadores").Range("A1048576").End(xlUp).Row + 1
+    Range("A" & Preencher).Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+            :=False, Transpose:=False
+  
+    Espera = Application.Wait(Now + TimeValue("00:00:20"))
+    
+       
+    Application.Worksheets("Dados_Somas_Ocorrencias").Select
+    Application.Range("E2").Select
+    Range(Selection, ("E2:E3")).Select
+    Selection.Copy
+    
+    Espera = Application.Wait(Now + TimeValue("00:00:02"))
+    With Worksheets("Final_Base")
+    Espera = Application.Wait(Now + TimeValue("00:00:02"))
+    Sheets("Final_Base").Activate
+    Preencher = Sheets("Final_Base").Range("A1048576").End(xlUp).Row - 1
+    Espera = Application.Wait(Now + TimeValue("00:00:02"))
+    Range("H" & Preencher).Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+            :=False, Transpose:=False
+            
+            End With
+       'Espera = Now + TimeValue("00:00:10")
+       'Call AutomatizacaoRelatorioEntradasCCB
+     
+     End Sub
+     
+     
+
+
+

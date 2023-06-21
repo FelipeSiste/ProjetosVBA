@@ -1,0 +1,10 @@
+Sub Executar_no_Tempo()
+
+Dim Tempo_Execucao As Date
+
+Tempo_Execucao = Now + TimeValue("00:00:20")
+
+Application.Run "AutomatizacaoTabulacaoCCB"
+Call Application.OnTime(Tempo_Execucao, "Executar_no_Tempo")
+
+End Sub

@@ -1,0 +1,66 @@
+Sub Empresas_Tabulacao()
+
+        Dim ConexaoBanco As ADODB.Connection
+        Dim EntradasBanco As ADODB.Recordset
+        Dim Preencher As String
+        Dim Tabela_Collector As String
+        Dim Dados As Variant
+        Dim Dados_Max As Double
+        Dim Dados_Data As Date
+         
+    
+        
+        Set Dados = Worksheets("Empresas_Dados_Tabulacao").Range("AC2:AC1048576")
+        Dados_Max = WorksheetFunction.Max(Dados)
+        Dados_Data = CDate(Dados_Max)
+        
+        
+        
+        Preencher = Sheets("Empresas_Dados_Tabulacao").Range("A1048576").End(xlUp).Row + 1
+        
+        
+        Set ConexaoBanco = New ADODB.Connection
+        Set EntradasBanco = New ADODB.Recordset
+    
+    ConexaoBanco.ConnectionString = "Driver={PostgreSQL ANSI};Server=200.201.211.85;Port=5434;Database=db_gcob;Uid=ugcob2b;Pwd=gcob2b001;Option=3;"
+    ConexaoBanco.Open
+        
+        Tabela_Collector = " select cob_contr_hist.idt_hist,cob_contr_hist.dat_data_hist::date as data_hist, to_char(dat_data_hist,'HH24:MI:SS') as hora_hist, cob_contr_hist.cod_user, cob_contr_hist.cod_credor, cob_contr_hist.cod_entid_credor, cob_contr_hist.num_contr, cob_contr_hist.cod_hist, cob_contr_hist.des_hist, mc.cod_origem from cob_contr_hist LEFT join cob_cliente_mc as mc on cob_contr_hist.cod_empresa = mc.cod_empresa and cob_contr_hist.num_cpf_cnpj = mc.num_cpf_cnpj and cob_contr_hist.num_ddd = mc.num_ddd and cob_contr_hist.num_tel = mc.num_tel where cod_credor in ('910', '951', '943', '932') and cob_contr_hist.cod_user not in ('384', '348', '365', '366', '0', '364', '373', '398', '429','357') and cob_contr_hist.cod_hist not in ('eema','****','efax', 'esms', 'rema', 'rfax', 'rsms') and dat_data_hist > ' " & (Dados_Data) & " ' "
+    
+        EntradasBanco.Open Tabela_Collector, ConexaoBanco
+            
+            
+            
+        Application.Range("A" & Preencher).CopyFromRecordset EntradasBanco
+         
+        ConexaoBanco.Close
+       Range("B2").Select
+    ActiveWorkbook.Worksheets("Empresas_Dados_Tabulacao").ListObjects("Tabulacao"). _
+        Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Empresas_Dados_Tabulacao").ListObjects("Tabulacao"). _
+        Sort.SortFields.Add2 Key:=Range("Tabulacao[Date]"), SortOn:=xlSortOnValues _
+        , Order:=xlAscending, DataOption:=xlSortNormal
+    ActiveWorkbook.Worksheets("Empresas_Dados_Tabulacao").ListObjects("Tabulacao"). _
+        Sort.SortFields.Add2 Key:=Range("Tabulacao[Usuario]"), SortOn:= _
+        xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+    ActiveWorkbook.Worksheets("Empresas_Dados_Tabulacao").ListObjects("Tabulacao"). _
+        Sort.SortFields.Add2 Key:=Range("Tabulacao[Hora_Aciona]"), SortOn:= _
+        xlSortOnValues, Order:=xlAscending, DataOption:=xlSortTextAsNumbers
+    With ActiveWorkbook.Worksheets("Empresas_Dados_Tabulacao").ListObjects("Tabulacao" _
+        ).Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+    Espera = Now + TimeValue("00:00:20")
+     ActiveWorkbook.RefreshAll
+   
+      Espera = Now + TimeValue("00:00:10")
+      Call SendEmailEmpresasTabulacao
+        
+        End Sub
+    
+    

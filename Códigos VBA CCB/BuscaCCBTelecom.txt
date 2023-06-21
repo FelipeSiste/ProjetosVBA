@@ -1,0 +1,89 @@
+Option Explicit
+    
+    Private cd As Selenium.ChromeDriver
+    
+    Sub Busca()
+    Dim ImputElemente As Selenium.WebElement
+    Dim ImputElemente2 As Selenium.WebElement
+    Dim Click As Selenium.WebElement
+    Dim Click1 As Selenium.WebElement
+    Dim Click2 As Selenium.WebElements
+    Dim Click3 As Selenium.WebElement
+    Dim Click4 As Selenium.WebElement
+    Dim ImputElemente3 As Selenium.WebElements
+    Dim ImputElemente4 As Selenium.WebElements
+    Dim ImputElemente5 As Selenium.WebElement
+    Dim ImputElemente6 As Selenium.WebElement
+    Dim HoraAtual As Date
+    
+  
+    
+    
+    HoraAtual = Format(Now, "dd/mm/yyyy")
+    
+  
+    Dim Dados As Variant
+    Dim Dados_Max As Double
+    Dim Dados_Data As Date
+             
+        
+            
+            Set Dados = Worksheets("Dados_Telecom").Range("N2:N1048576")
+            Dados_Max = WorksheetFunction.Max(Dados)
+            Dados_Data = CDate(Dados_Max)
+    
+    Set cd = New Selenium.ChromeDriver
+    
+    cd.Start
+    cd.Get "http://managergrupocob.talktelecom.com.br/#/login"
+    
+    
+    Set ImputElemente = cd.FindElementByCss("[Type = 'text']")
+    ImputElemente.SendKeys ("felipesiste")
+    
+    Set ImputElemente2 = cd.FindElementByCss("[Type = 'password']")
+    ImputElemente2.SendKeys ("Abcd123?")
+    
+    Set Click = cd.FindElementByCss("[type ='submit']")
+    Click.Click
+    
+    cd.Get "http://managergrupocob.talktelecom.com.br/#/bilhete"
+    cd.Wait (Now + TimeValue("00:00:30"))
+    
+    Set ImputElemente3 = cd.FindElementsByTag("input")
+    Set ImputElemente5 = cd.FindElementsByTag("input")(3)
+    'Debug.Print ImputElemente3.Item(3).Value
+    ImputElemente5.Clear
+    ImputElemente5.SendKeys (Dados_Data & " " & "18:10:00")
+     
+    
+    Set ImputElemente4 = cd.FindElementsByTag("input")
+    Set ImputElemente6 = cd.FindElementsByTag("input")(4)
+    'Debug.Print ImputElemente3.Item(4).Value
+    ImputElemente6.Clear
+    ImputElemente6.SendKeys (HoraAtual & " " & "06:00:00")
+    
+    Set Click = cd.FindElementByCss(" .md-btn.md-btn-primary.ng-binding")
+    Click.Click
+    
+    Set Click1 = cd.FindElementByCss(" .md-btn.md-btn-success.ng-binding")
+    Click1.Click
+    cd.Wait (Now + TimeValue("00:00:30"))
+    
+    Set Click2 = cd.FindElementsByCss(" .md-btn.md-btn-success.ng-binding")
+    Set Click3 = cd.FindElementsByCss(" .md-btn.md-btn-success.ng-binding")(2)
+    'Debug.Print Click3.Text
+    Click3.Click
+    cd.Wait (Now + TimeValue("00:00:30"))
+    
+    cd.Get "http://managergrupocob.talktelecom.com.br/#/bilheteCdr/detalheExportar"
+    cd.Wait (Now + TimeValue("00:00:10"))
+    
+    Set Click4 = cd.FindElementByCss(".md-icon.uk-icon-download")
+    Click4.Click
+    
+    cd.Wait (Now + TimeValue("00:00:20"))
+    Call AbrirArquivo
+    
+    
+    End Sub

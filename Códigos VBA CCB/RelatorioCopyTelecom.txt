@@ -1,0 +1,159 @@
+Sub RelatorioCopyTelecom()
+
+    Dim Preencher As String
+    Dim Preencher_1 As String
+    Dim Espera_1 As Date
+   
+    
+        
+        
+        Range("A1").Select
+        Range(Selection, Selection.End(xlDown)).Select
+        Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=True, Comma:=False, Space:=False, Other:=False, FieldInfo _
+        :=Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, 1), Array(6, 1), _
+        Array(7, 1), Array(8, 1), Array(9, 1), Array(10, 1), Array(11, 1), Array(12, 1), Array(13, 1 _
+        ), Array(14, 1), Array(15, 1), Array(16, 1), Array(17, 1), Array(18, 1), Array(19, 1), Array _
+        (20, 1), Array(21, 1), Array(22, 1), Array(23, 1), Array(24, 1), Array(25, 1), Array(26, 1), _
+        Array(27, 1), Array(28, 1), Array(29, 1), Array(30, 1), Array(31, 1), Array(32, 1), Array( _
+        33, 1), Array(34, 1), Array(35, 1), Array(36, 1), Array(37, 1), Array(38, 1), Array(39, 1), _
+        Array(40, 1), Array(41, 1), Array(42, 1)), TrailingMinusNumbers:=True
+
+ 
+ 
+    
+        Columns("B:D").Select
+        Selection.Delete Shift:=xlToLeft
+        Columns("C:N").Select
+        Selection.Delete Shift:=xlToLeft
+        Columns("E:K").Select
+        Selection.Delete Shift:=xlToLeft
+        Columns("E:K").EntireColumn.AutoFit
+        Columns("F:K").Select
+        Selection.Delete Shift:=xlToLeft
+        Columns("H:O").Select
+        Selection.Delete Shift:=xlToLeft
+        Columns("A:A").Select
+        Columns("B:B").Select
+        Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+        Range("F1").Select
+        Range(Selection, Selection.End(xlDown)).Select
+        Selection.Copy
+        Range(Selection, Selection.End(xlUp)).Select
+        Range("B1").Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+            :=False, Transpose:=False
+        ActiveSheet.Paste
+        Columns("B:B").EntireColumn.AutoFit
+        Columns("F:F").Select
+        Application.CutCopyMode = False
+        Selection.Delete Shift:=xlToLeft
+        Columns("F:F").Select
+        Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+        Columns("H:H").Select
+        Selection.Copy
+        Range("F1").Select
+        ActiveSheet.Paste
+        Columns("H:H").Select
+        Application.CutCopyMode = False
+        Selection.Delete Shift:=xlToLeft
+        Range("J10").Select
+        Columns("G:G").EntireColumn.AutoFit
+        Range("A1").Select
+    
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:05"))
+        Preencher_1 = Application.Range("A1048576").End(xlUp).Row
+        Range(Selection, Selection.End(xlToRight)).Select
+        Selection.AutoFilter
+        ActiveSheet.Range("$A$1" & ":$G$" & Preencher_1).AutoFilter Field:=4, Criteria1:= _
+            "Cobranca Consignado", Operator:=xlOr, Criteria2:="=Cobranca Veiculos"
+        Range("A2" & ":G" & Preencher_1).SpecialCells(xlCellTypeVisible).Select
+        'Selection.Range("A2" & ":G" & Preencher_1).Copy
+         
+        
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:30"))
+        
+       'Faz a seleção para deletar os dados que estão na planilha
+        Windows("GrupoCobDaily.xlsm").Activate
+        Sheets("Auxiliar_Telecom").Activate
+        
+        Range("A12").Select
+        Range(Selection, Selection.End(xlDown)).Select
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Range(Selection, Selection.End(xlToRight)).Select
+        Espera = Application.Wait(Now + TimeValue("00:00:02"))
+        Range(Selection, Selection.End(xlToRight)).Delete
+        Preencher_2 = Application.Range("A1048576").End(xlUp).Row + 1
+        Range("A12:M12").Select
+        Range(Selection, Selection.End(xlDown)).Select
+        
+        'Volta para a planilha Telecom para selecionar os cmpos que serão colados
+        Windows("Telecom.csv").Activate
+        Sheets("Telecom").Activate
+        Selection.Range("A2" & ":G" & Preencher_1).Copy
+        
+       'Volta para planilha para fazer a colagem
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        Windows("GrupoCobDaily.xlsm").Activate
+        Sheets("Auxiliar_Telecom").Activate
+        Range("A14" & ":M" & Preencher_2).SpecialCells(xlCellTypeVisible).Select
+        Range("A" & Preencher_2).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+            :=False, Transpose:=False
+        
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:05"))
+        Range("A11:M14").Select
+        Range(Selection, ("A12:M14")).Delete
+        
+            
+       'Vai selecionar os campos da tabela para colar na outra aba da planilha
+        Application.Range("A2").Select
+        Range(Selection, Selection.End(xlToRight)).Select
+        Range(Selection, "A3").Select
+        Selection.Copy
+       
+       'Colagem na planilha Aux_Discador
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        With Worksheets("Aux_Discador")
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        Sheets("Aux_Discador").Activate
+        Preencher = Sheets("Aux_Discador").Range("A1048576").End(xlUp).Row + 1
+        Range("A" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                :=False, Transpose:=False
+        End With
+       'Selecionando os campos para colagem na planilha FinalBase
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        With Worksheets("Auxiliar_Telecom")
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        Sheets("Auxiliar_Telecom").Activate
+        Application.Range("E2:G3").Select
+        'Range(Selection, ("E3:G3").Select
+        'Range(Selection, "E3").Select
+        Selection.Copy
+        End With
+       
+       'Colagem na planilha FianlBase
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        With Worksheets("Final_Base")
+        Epera_1 = Application.Wait(Now + TimeValue("00:00:02"))
+        Sheets("Final_Base").Activate
+        Preencher = Sheets("Final_Base").Range("A1048576").End(xlUp).Row - 1
+        Range("U" & Preencher).Select
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                :=False, Transpose:=False
+        End With
+           
+           
+        'Epera_1 = Application.Wait(Now + TimeValue("00:00:30"))
+        'ActiveWorkbook.RefreshAll
+            
+        'Epera_1 = Application.Wait(Now + TimeValue("00:00:30"))
+        'Call AutomatizacaoRelatórioCCB
+            
+
+End Sub
+
+
+

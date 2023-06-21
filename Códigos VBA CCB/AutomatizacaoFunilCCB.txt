@@ -1,0 +1,42 @@
+Sub AutomatizacaoFunilCCB()
+
+
+
+
+         Dim ConexaoBanco As ADODB.Connection
+         Dim EntradasBanco As ADODB.Recordset
+         Dim Preencher As String
+         Dim Tabela_Collector As String
+         Dim DataReferencia As Date
+         Dim DataInicial As Date
+         Dim EsperaCCBFunil As Date
+         
+         Preencher = Sheets("Funil_db").Range("A1048576").End(xlUp).Row + 1
+    
+   
+
+ 
+        
+        Set ConexaoBanco = New ADODB.Connection
+        Set EntradasBanco = New ADODB.Recordset
+    
+    ConexaoBanco.ConnectionString = "Driver={PostgreSQL ANSI};Server=200.201.211.85;Port=5434;Database=db_gcob;Uid=ugcob2b;Pwd=gcob2b001;Option=3;"
+    ConexaoBanco.Open
+    
+    Tabela_Collector = Sheets("Funil_db").Shapes.Range("CaixaDeTexto 2").TextFrame2.TextRange.Characters.Text
+                          
+    
+    EntradasBanco.Open Tabela_Collector, ConexaoBanco
+        
+        
+        
+       Application.Range("A" & Preencher).CopyFromRecordset EntradasBanco
+    
+       ConexaoBanco.Close
+       ActiveWorkbook.RefreshAll
+       
+       EsperaCCBFunil = TimeValue("00:00:20")
+       Call SendEmailFunil_1
+
+
+End Sub

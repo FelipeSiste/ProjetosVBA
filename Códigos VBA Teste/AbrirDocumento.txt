@@ -1,0 +1,13 @@
+Sub abrirArquivos() 
+
+Dim objShell As Object
+
+Set objShell = CreateObject("Shell.Application")
+ 
+caminho = "C:UsersDiego AmorimDesktopPlanilha aleatória para a aula.xlsx"
+
+objShell.Open (caminho)
+ 
+'Workbooks.Open (caminho)
+
+End Sub

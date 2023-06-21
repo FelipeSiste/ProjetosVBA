@@ -1,0 +1,11 @@
+Atualiza planilha:
+
+No VBA em esta pasta de trabalho, de dois cliqes e cole o código?
+
+Private Sub workbook_open()  -----> evento para abrir a planilha 
+
+Call AutomatizacaoTabulacaoCCB -----> chamada do código VBA que atualiza os dados 
+
+
+End Sub
+

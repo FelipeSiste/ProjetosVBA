@@ -1,0 +1,6 @@
+ 
+ 
+ Dim Atualiza As New Selenium.By
+
+Do While cd.IsElementPresent(Atualiza.Tag("input")) = False
+    Loop
